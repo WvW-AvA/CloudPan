@@ -1,0 +1,3 @@
+/home/mua/Backend/CloudPan/build/CMakeFiles/rebuild_cache.dir
+/home/mua/Backend/CloudPan/build/CMakeFiles/edit_cache.dir
+/home/mua/Backend/CloudPan/build/CMakeFiles/CloudPan.dir

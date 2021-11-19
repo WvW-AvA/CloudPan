@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/CloudPan.dir/CloudPan.cpp.o  -o CloudPan 
