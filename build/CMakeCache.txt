@@ -212,8 +212,23 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Value Computed by CMake
 CloudPan_BINARY_DIR:STATIC=/home/mua/Backend/CloudPan/build
 
+//Dependencies for the target
+CloudPan_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu;general;/usr/lib/x86_64-linux-gnu;
+
 //Value Computed by CMake
 CloudPan_SOURCE_DIR:STATIC=/home/mua/Backend/CloudPan
+
+//Path to a library.
+MYSQL_EMBEDDED_LIBRARIES:FILEPATH=MYSQL_EMBEDDED_LIBRARIES-NOTFOUND
+
+//Path to a file.
+MYSQL_INCLUDE_DIR:PATH=/usr/include/mysql
+
+//Path to a library.
+MYSQL_LIBRARIES:FILEPATH=/usr/lib/x86_64-linux-gnu/libmysqlclient.so
+
+//The directory containing a CMake configuration file for MySQL.
+MySQL_DIR:PATH=MySQL_DIR-NOTFOUND
 
 //Value Computed by CMake
 Project_BINARY_DIR:STATIC=/home/mua/Backend/CloudPan/build
@@ -369,4 +384,12 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Test HAVE_MYSQL_OPT_EMBEDDED_CONNECTION
+HAVE_MYSQL_OPT_EMBEDDED_CONNECTION:INTERNAL=
+//ADVANCED property for variable: MYSQL_EMBEDDED_LIBRARIES
+MYSQL_EMBEDDED_LIBRARIES-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MYSQL_INCLUDE_DIR
+MYSQL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MYSQL_LIBRARIES
+MYSQL_LIBRARIES-ADVANCED:INTERNAL=1
 
