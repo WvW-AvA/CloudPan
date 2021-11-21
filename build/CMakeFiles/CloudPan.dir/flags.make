@@ -6,5 +6,5 @@ CXX_FLAGS =   -I/usr/include/mysql -std=gnu++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mua/Backend/CloudPan/{PROJECT_BINARY_DIR} -I/usr/include/mysql 
+CXX_INCLUDES = -I/home/mua/Backend/CloudPan/build -I/usr/include/mysql 
 
