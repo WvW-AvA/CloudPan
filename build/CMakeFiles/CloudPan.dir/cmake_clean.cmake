@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/CloudPan.dir/CloudPan.cpp.o"
+  "CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o"
   "CloudPan"
   "CloudPan.pdb"
 )

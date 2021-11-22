@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/CloudPan.dir/CloudPan.cpp.o  -o CloudPan 
+/usr/bin/c++     CMakeFiles/CloudPan.dir/CloudPan.cpp.o CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o  -o CloudPan  /usr/lib/x86_64-linux-gnu/libmysqlclient.so 

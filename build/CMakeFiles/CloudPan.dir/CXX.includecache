@@ -6,3 +6,25 @@
 
 #IncludeRegexTransform: 
 
+/home/mua/Backend/CloudPan/CloudPan.cpp
+CloudPan.hpp
+/home/mua/Backend/CloudPan/CloudPan.hpp
+
+/home/mua/Backend/CloudPan/CloudPan.hpp
+iostream
+-
+mysql/mysql.h
+-
+UserManager/UserInfo.hpp
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+iostream
+-
+vector
+-
+map
+-
+algorithm
+-
+

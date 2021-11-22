@@ -227,6 +227,9 @@ MYSQL_INCLUDE_DIR:PATH=/usr/include/mysql
 //Path to a library.
 MYSQL_LIBRARIES:FILEPATH=/usr/lib/x86_64-linux-gnu/libmysqlclient.so
 
+//Path to a library.
+MYSQL_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libmysqlclient.so
+
 //The directory containing a CMake configuration file for MySQL.
 MySQL_DIR:PATH=MySQL_DIR-NOTFOUND
 
@@ -392,4 +395,6 @@ MYSQL_EMBEDDED_LIBRARIES-ADVANCED:INTERNAL=1
 MYSQL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: MYSQL_LIBRARIES
 MYSQL_LIBRARIES-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: MYSQL_LIBRARY
+MYSQL_LIBRARY-ADVANCED:INTERNAL=1
 

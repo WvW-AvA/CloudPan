@@ -4,3 +4,7 @@
 CMakeFiles/CloudPan.dir/CloudPan.cpp.o
  /home/mua/Backend/CloudPan/CloudPan.cpp
  /home/mua/Backend/CloudPan/CloudPan.hpp
+ /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o
+ /home/mua/Backend/CloudPan/UserManager/UserInfo.cpp
+ /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
