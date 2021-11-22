@@ -9,14 +9,15 @@ project(CloudPan)
 # add_library(CloudPan SHARED 
 #                 CloudPan.cpp)
 
-add_executable(CloudPan CloudPan.cpp)
+add_executable(CloudPan CloudPan.cpp CloudPan.hpp UserManager/UserInfo.cpp UserManager/UserInfo.hpp)
                 
+#add_compile_options(-L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -ldl -lz -lssl -lcrypto -lresolv -lm -lrt)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-find_package(MySQL REQUIRED)
+find_package(MySQL)
 
 target_include_directories(CloudPan PUBLIC  ${PROJECT_BINARY_DIR} ${MYSQL_INCLUDE_DIR})
 
-target_link_libraries(CloudPan  ${MYSQL_LIB_DIR})
+target_link_libraries(CloudPan  ${MYSQL_LIBRARIES})
 
 execute_process(COMMAND mysql_config --cflags
     OUTPUT_VARIABLE MYSQL_CFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)

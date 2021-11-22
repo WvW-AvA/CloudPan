@@ -1,129 +1,52 @@
-# - Try to find MySQL / MySQL Embedded library
-# Find the MySQL includes and client library
-# This module defines
-#  MYSQL_INCLUDE_DIR, where to find mysql.h
-#  MYSQL_LIBRARIES, the libraries needed to use MySQL.
-#  MYSQL_LIB_DIR, path to the MYSQL_LIBRARIES
-#  MYSQL_EMBEDDED_LIBRARIES, the libraries needed to use MySQL Embedded.
-#  MYSQL_EMBEDDED_LIB_DIR, path to the MYSQL_EMBEDDED_LIBRARIES
-#  MYSQL_FOUND, If false, do not try to use MySQL.
-#  MYSQL_EMBEDDED_FOUND, If false, do not try to use MySQL Embedded.
-
-# Copyright (c) 2006-2008, Jarosław Staniek <staniek@kde.org>
+# - Find mysqlclient
+# Find the native MySQL includes and library
 #
-# Redistribution and use is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+#  MYSQL_INCLUDE_DIR - where to find mysql.h, etc.
+#  MYSQL_LIBRARIES   - List of libraries when using MySQL.
+#  MYSQL_FOUND       - True if MySQL found.
 
-include(CheckCXXSourceCompiles)
-
-if(WIN32)
-   find_path(MYSQL_INCLUDE_DIR mysql.h
-      PATHS
-      $ENV{MYSQL_INCLUDE_DIR}
-      $ENV{MYSQL_DIR}/include
-      $ENV{ProgramFiles}/MySQL/*/include
-      $ENV{SystemDrive}/MySQL/*/include
-      $ENV{ProgramW6432}/MySQL/*/include
-   )
-else(WIN32)
-   find_path(MYSQL_INCLUDE_DIR mysql.h
-      PATHS
-      $ENV{MYSQL_INCLUDE_DIR}
-      $ENV{MYSQL_DIR}/include
-      /usr/local/mysql/include
-      /opt/mysql/mysql/include
-      PATH_SUFFIXES
-      mysql
-   )
-endif(WIN32)
-
-if(WIN32)
-   if (${CMAKE_BUILD_TYPE})
-    string(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
-   endif()
-
-   # path suffix for debug/release mode
-   # binary_dist: mysql binary distribution
-   # build_dist: custom build
-   if(CMAKE_BUILD_TYPE_TOLOWER MATCHES "debug")
-      set(binary_dist debug)
-      set(build_dist Debug)
-   else(CMAKE_BUILD_TYPE_TOLOWER MATCHES "debug")
-      ADD_DEFINITIONS(-DDBUG_OFF)
-      set(binary_dist opt)
-      set(build_dist Release)
-   endif(CMAKE_BUILD_TYPE_TOLOWER MATCHES "debug")
-
-#   find_library(MYSQL_LIBRARIES NAMES mysqlclient
-   set(MYSQL_LIB_PATHS
-      $ENV{MYSQL_DIR}/lib/${binary_dist}
-      $ENV{MYSQL_DIR}/libmysql/${build_dist}
-      $ENV{MYSQL_DIR}/client/${build_dist}
-      $ENV{ProgramFiles}/MySQL/*/lib/${binary_dist}
-      $ENV{SystemDrive}/MySQL/*/lib/${binary_dist}
-      $ENV{MYSQL_DIR}/lib/opt
-      $ENV{MYSQL_DIR}/client/release
-      $ENV{ProgramFiles}/MySQL/*/lib/opt
-      $ENV{SystemDrive}/MySQL/*/lib/opt
-      $ENV{ProgramW6432}/MySQL/*/lib
-   )
-   find_library(MYSQL_LIBRARIES NAMES libmysql
-      PATHS
-      ${MYSQL_LIB_PATHS}
-   )
-else(WIN32)
-#   find_library(MYSQL_LIBRARIES NAMES mysqlclient
-   set(MYSQL_LIB_PATHS
-      $ENV{MYSQL_DIR}/libmysql_r/.libs
-      $ENV{MYSQL_DIR}/lib
-      $ENV{MYSQL_DIR}/lib/mysql
-      /usr/local/mysql/lib
-      /opt/mysql/mysql/lib
-      $ENV{MYSQL_DIR}/libmysql_r/.libs
-      $ENV{MYSQL_DIR}/lib
-      $ENV{MYSQL_DIR}/lib/mysql
-      /usr/local/mysql/lib
-      /opt/mysql/mysql/lib
-      PATH_SUFFIXES
-      mysql
-   )
-   find_library(MYSQL_LIBRARIES NAMES mysqlclient
-      PATHS
-      ${MYSQL_LIB_PATHS}
-   )
-endif(WIN32)
-
-find_library(MYSQL_EMBEDDED_LIBRARIES NAMES mysqld
-   PATHS
-   ${MYSQL_LIB_PATHS}
+IF (MYSQL_INCLUDE_DIR)
+  # Already in cache, be silent
+  SET(MYSQL_FIND_QUIETLY TRUE)
+ENDIF (MYSQL_INCLUDE_DIR)
+#从下面那两个路径找mysql.h，将找到的路径放到MYSQL_INCLUDE_DIR这个变量中。
+FIND_PATH(MYSQL_INCLUDE_DIR mysql.h
+  /usr/local/include/mysql
+  /usr/include/mysql
+)
+#设置要寻找的链接库的名字，这里应该是找libmysqlclient.so
+SET(MYSQL_NAMES mysqlclient mysqlclient_r)
+#将libmysqlclient.so的路径放到MYSQL_LIBRARY
+FIND_LIBRARY(MYSQL_LIBRARY
+  NAMES ${MYSQL_NAMES}
+  PATHS /usr/lib /usr/local/lib
+  PATH_SUFFIXES mysql
 )
 
-if(MYSQL_LIBRARIES)
-   get_filename_component(MYSQL_LIB_DIR ${MYSQL_LIBRARIES} PATH)
-endif(MYSQL_LIBRARIES)
+#如果上面找到mysql的头文件和mysql的库文件，就将MYSQL_FOUND设为真
+IF (MYSQL_INCLUDE_DIR AND MYSQL_LIBRARY)
+  SET(MYSQL_FOUND TRUE)
+  SET( MYSQL_LIBRARIES ${MYSQL_LIBRARY} )
+ELSE (MYSQL_INCLUDE_DIR AND MYSQL_LIBRARY)
+  SET(MYSQL_FOUND FALSE)
+  SET( MYSQL_LIBRARIES )
+ENDIF (MYSQL_INCLUDE_DIR AND MYSQL_LIBRARY)
 
-if(MYSQL_EMBEDDED_LIBRARIES)
-   get_filename_component(MYSQL_EMBEDDED_LIB_DIR ${MYSQL_EMBEDDED_LIBRARIES} PATH)
-endif(MYSQL_EMBEDDED_LIBRARIES)
+#如果找到并且没有设置QUIET，则输出搜到动态库路径
+#如果找不到就输出错误信息
+IF (MYSQL_FOUND)
+  IF (NOT MYSQL_FIND_QUIETLY)
+    MESSAGE(STATUS "Found MySQL: ${MYSQL_LIBRARY}")
+  ENDIF (NOT MYSQL_FIND_QUIETLY)
+ELSE (MYSQL_FOUND)
+  IF (MYSQL_FIND_REQUIRED)
+    MESSAGE(STATUS "Looked for MySQL libraries named ${MYSQL_NAMES}.")
+    MESSAGE(FATAL_ERROR "Could NOT find MySQL library")
+  ENDIF (MYSQL_FIND_REQUIRED)
+ENDIF (MYSQL_FOUND)
 
-set( CMAKE_REQUIRED_INCLUDES ${MYSQL_INCLUDE_DIR} )
-set( CMAKE_REQUIRED_LIBRARIES ${MYSQL_EMBEDDED_LIBRARIES} )
-check_cxx_source_compiles( "#include <mysql.h>\nint main() { int i = MYSQL_OPT_USE_EMBEDDED_CONNECTION; }" HAVE_MYSQL_OPT_EMBEDDED_CONNECTION )
-
-if(MYSQL_INCLUDE_DIR AND MYSQL_LIBRARIES)
-   set(MYSQL_FOUND TRUE)
-   message(STATUS "Found MySQL: ${MYSQL_INCLUDE_DIR}, ${MYSQL_LIBRARIES}")
-else(MYSQL_INCLUDE_DIR AND MYSQL_LIBRARIES)
-   set(MYSQL_FOUND FALSE)
-   message(STATUS "MySQL not found.")
-endif(MYSQL_INCLUDE_DIR AND MYSQL_LIBRARIES)
-
-if(MYSQL_INCLUDE_DIR AND MYSQL_EMBEDDED_LIBRARIES AND HAVE_MYSQL_OPT_EMBEDDED_CONNECTION)
-   set(MYSQL_EMBEDDED_FOUND TRUE)
-   message(STATUS "Found MySQL Embedded: ${MYSQL_INCLUDE_DIR}, ${MYSQL_EMBEDDED_LIBRARIES}")
-else(MYSQL_INCLUDE_DIR AND MYSQL_EMBEDDED_LIBRARIES AND HAVE_MYSQL_OPT_EMBEDDED_CONNECTION)
-   set(MYSQL_EMBEDDED_FOUND FALSE)
-   message(STATUS "MySQL Embedded not found.")
-endif(MYSQL_INCLUDE_DIR AND MYSQL_EMBEDDED_LIBRARIES AND HAVE_MYSQL_OPT_EMBEDDED_CONNECTION)
-
-mark_as_advanced(MYSQL_INCLUDE_DIR MYSQL_LIBRARIES MYSQL_EMBEDDED_LIBRARIES)
+#将他标记为高级变量，具体什么作用没查到
+MARK_AS_ADVANCED(
+  MYSQL_LIBRARY
+  MYSQL_INCLUDE_DIR
+  )
