@@ -48,10 +48,10 @@ class UserManager
 private:
      map<User,FILE*> user_FILE_map;
      MYSQL mysql;
+     bool mySQLInit(MYSQL &mysql);
 public:
-    bool checkPassward(const string name,const string passward,User *userOut);
-    string userSignUp(const User & user);
-    bool mySQLInit(MYSQL &mysql);
+    bool checkPassward(const string name,const string passward,User &userOut);
+    bool userSignUp(const User & user);
     bool insertUserDataIntoSQL(const User & user);
     User* readUserInfoFromSQL(string name);
 
