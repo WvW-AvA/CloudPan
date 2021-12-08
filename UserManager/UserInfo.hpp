@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-
+#include <mysql/mysql.h>
 using namespace std;
 class  User
 {
@@ -47,23 +47,25 @@ class UserManager
 {
 private:
      map<User,FILE*> user_FILE_map;
-     FILE * users_passward_record;
+     MYSQL mysql;
 public:
-    bool check_Passward(User &user);
-    string user_Sign_Up(User & user);
-    
-    UserManager( string const user_record_file_path)
-    {
-        users_passward_record=fopen(user_record_file_path.c_str(),"rw");
-        if(!users_passward_record)
-        {
+    bool checkPassward(const string name,const string passward,User *userOut);
+    string userSignUp(const User & user);
+    bool mySQLInit(MYSQL &mysql);
+    bool insertUserDataIntoSQL(const User & user);
+    User* readUserInfoFromSQL(string name);
 
-        }
+    UserManager()
+    {
+       if(!mySQLInit(mysql))
+       {
+           delete(this);
+       }
     }
 
     ~UserManager()
     {
-        fclose(users_passward_record);
+       mysql_close(&mysql);
     }
 
 };
