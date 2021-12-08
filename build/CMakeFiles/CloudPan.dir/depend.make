@@ -4,6 +4,7 @@
 CMakeFiles/CloudPan.dir/CloudPan.cpp.o: ../CloudPan.cpp
 CMakeFiles/CloudPan.dir/CloudPan.cpp.o: ../CloudPan.hpp
 CMakeFiles/CloudPan.dir/CloudPan.cpp.o: ../UserManager/UserInfo.hpp
+CMakeFiles/CloudPan.dir/CloudPan.cpp.o: ../httplib.h
 
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../UserManager/UserInfo.cpp
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../UserManager/UserInfo.hpp
