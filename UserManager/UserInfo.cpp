@@ -43,6 +43,8 @@ bool UserManager::userSignUp(const User & user)
         mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email).c_str(),S_IRWXU);
         auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"filelog.txt").c_str(),"w");
         fclose(tem);
+        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"fileLayer.txt").c_str(),"w");
+        fclose(tem);
     }
     return res;
 }

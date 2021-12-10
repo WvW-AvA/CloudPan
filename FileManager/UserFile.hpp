@@ -8,24 +8,65 @@
 using namespace std;
 enum FileType
 {
-    txt,
-    file,
-    jpg,
+    txt=3,
+    zip=1,
+    jpg=2,
+    bin=0
 };
 
 class UserFile
 {
 private:
-    
-public:
     FileType fileType;
+public:
+    
     string fileName;
     string filePath;
+    void set_fileType(const string & str)
+    {
+        if(str=="txt")
+            fileType=(FileType)txt;
+            else if(str=="zip")
+            fileType=(FileType)zip;
+            else if(str=="jpg")
+            fileType=(FileType)jpg;
+            else
+            fileType=(FileType)bin;
+    }
+    FileType get_fileType()
+    {
+        return fileType;
+    }
+    string get_fileType_str()
+    {
+        switch (fileType)
+        {
+        case (FileType)txt:
+            return "txt";
+            break;
+        case (FileType)zip:
+            return "zip";
+            break;
+        case (FileType)jpg:
+            return "jpg";
+            break;
+        default:
+        return "bin";
+            break;
+        }
+    }
     
-    UserFile::UserFile(FileType filetype,const string & fileName,const string& filePath);
+    friend ostream & operator<< (ostream & os,UserFile* uf)
+    {
+        return os<<"Name:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType"<<uf->get_fileType_str();
+    }
+    UserFile();
+    UserFile(FileType filetype,const string & fileName,const string& filePath);
+    
     ~UserFile();
 };
 
+UserFile::UserFile(){}
 UserFile::UserFile(FileType filetype,const string & fileName,const string& filePath)
 {
     this->fileName=fileName;
@@ -37,17 +78,30 @@ UserFile::~UserFile()
 {
 }
 
+struct DirNode
+{
+    string DirName;
+    vector<DirNode*> subDirs;
+    vector<UserFile> files;
+};
+
 class FileManager
 {
 private:
-    /* data */
+    DirNode rootDir;
+    UserFile* ReadUserFileInfo();
 public:
     User owner;
+    DirNode* currDir;
     string fileDirPath;
     FILE* userFileLog;
-    
-    void DownloadFile(const UserFile & file);
-    void UploadFile(const UserFile & file);
+    FILE* userFilLayers;
+
+    void buildTree();
+    void insertNodeFile(const UserFile &file);
+    void creatDir(const string & dirPath);
+    void downloadFile(const UserFile & file);
+    void uploadFile(const UserFile & file);
     FileManager(User& whose);
     ~FileManager();
 };
@@ -57,6 +111,8 @@ FileManager::FileManager(User& whose)
     this->owner=whose;
     this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email;
     userFileLog =fopen((this->fileDirPath+"filelog.txt").c_str(),"a+");
+    userFilLayers=fopen((this->fileDirPath+"fileLayer.txt").c_str(),"a+");
+    buildTree();
 }
 
 FileManager::~FileManager()
