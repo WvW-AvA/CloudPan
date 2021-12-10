@@ -41,9 +41,10 @@ bool UserManager::userSignUp(const User & user)
     if(res)
     {
         mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email).c_str(),S_IRWXU);
-        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"filelog.txt").c_str(),"w");
+        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/Data").c_str(),S_IRWXU);
+        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/filelog.txt").c_str(),"w");
         fclose(tem);
-        tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"fileLayer.txt").c_str(),"w");
+        tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/fileLayer.txt").c_str(),"w");
         fclose(tem);
     }
     return res;

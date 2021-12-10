@@ -4,6 +4,7 @@
 #include<iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <algorithm>
 #include "../httplib.h"
 #include "../UserManager/UserInfo.hpp"
 using namespace std;
@@ -59,7 +60,7 @@ public:
     
     friend ostream & operator<< (ostream & os,UserFile* uf)
     {
-        return os<<"Name:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType"<<uf->get_fileType_str();
+        return os<<"Name:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType:"<<uf->get_fileType_str();
     }
     UserFile(){}
     UserFile(FileType filetype,const string & fileName,const string& filePath)
@@ -83,6 +84,7 @@ class FileManager
 private:
     DirNode rootDir;
     UserFile* ReadUserFileInfo();
+    void buildTree();
 public:
     User owner;
     DirNode* currDir;
@@ -90,7 +92,7 @@ public:
     FILE* userFileLog;
     FILE* userFilLayers;
 
-    void buildTree();
+    void showCurrentDir();
     void insertNodeFile(const UserFile &file);
     void creatDir(const string & dirPath);
     void downloadFile(const UserFile & file);
@@ -98,10 +100,11 @@ public:
     FileManager(User& whose)
     {
         this->owner=whose;
-        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email;
-        userFileLog =fopen((this->fileDirPath+"filelog.txt").c_str(),"a+");
-        userFilLayers=fopen((this->fileDirPath+"fileLayer.txt").c_str(),"a+");
+        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/Data";
+        userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/filelog.txt").c_str(),"a+");
+        userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/fileLayer.txt").c_str(),"a+");
         buildTree();
+        currDir=&rootDir;
     }
 
     ~FileManager(){}

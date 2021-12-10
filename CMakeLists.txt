@@ -11,7 +11,7 @@ project(CloudPan)
 
 add_executable(CloudPan CloudPan.cpp httplib.h CloudPan.hpp FileManager/UserFile.cpp FileManager/UserFile.hpp UserManager/UserInfo.cpp UserManager/UserInfo.hpp)
                 
-#add_compile_options(-L/usr/lib/x86_64-linux-gnu -lmysqlclient -lpthread -ldl -lz -lssl -lcrypto -lresolv -lm -lrt)
+add_compile_options(-L/usr/lib/x86_64-linux-gnu -g -lmysqlclient -lpthread -ldl -lz -lssl -lcrypto -lresolv -lm -lrt)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(MySQL)
 

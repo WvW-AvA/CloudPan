@@ -1,0 +1,8 @@
+FileName:test2Name
+FilePath:test2Name
+FileType:txt
+STOP
+FileName:test1Name
+FilePath:dsa/ds/test1Name
+FileType:bin
+STOP

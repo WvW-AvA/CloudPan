@@ -36,7 +36,7 @@ vector<string> str_split(const string& str,const string& pattern)
 void FileManager::insertNodeFile(const UserFile& file)
 {
             DirNode *curr=&rootDir;
-            vector<string> separatedPath=str_split(file.filePath,"\\");
+            vector<string> separatedPath=str_split(file.filePath,"/");
             int i;
 pos:        for(i=0;i<separatedPath.size()-1;i++)
             {
@@ -54,12 +54,19 @@ pos:        for(i=0;i<separatedPath.size()-1;i++)
             for(auto v:curr->files)
             {
                if(v.fileName==separatedPath[i])
-               cout<<"Warning: FilePath double.";
+               cout<<"Warning: File has existed.";
                return;
             }
            curr->files.push_back(file);
 }
-
+void FileManager::showCurrentDir()
+{
+    cout<<currDir->DirName<<"\n\n";
+    for(auto v:currDir->subDirs)
+    cout<<v->DirName;
+    for(auto v:currDir->files)
+    cout<<&v;
+}
 UserFile* FileManager::ReadUserFileInfo()
 {
     UserFile *result=new UserFile();
@@ -69,9 +76,13 @@ UserFile* FileManager::ReadUserFileInfo()
     {
         if(!fgets(tem,999,userFilLayers))
         return NULL;
-        if(string(tem)=="STOP")
+        string t(tem);
+        t.erase(remove(t.begin(),t.end(),'\n'),t.end());
+        if(t=="STOP")
             break;
-        auto v=str_split(string(tem),":");
+        auto v=str_split(t,":");
+        if(v.size()==1)
+            v.push_back(string());
         if(v[0]=="FileName")
             result->fileName=v[1];
         else if(v[0]=="FilePath")
