@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <mysql/mysql.h>
 using namespace std;
 class  User

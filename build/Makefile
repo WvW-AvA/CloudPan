@@ -150,6 +150,33 @@ CloudPan.cpp.s:
 	$(MAKE) -f CMakeFiles/CloudPan.dir/build.make CMakeFiles/CloudPan.dir/CloudPan.cpp.s
 .PHONY : CloudPan.cpp.s
 
+FileManager/UserFile.o: FileManager/UserFile.cpp.o
+
+.PHONY : FileManager/UserFile.o
+
+# target to build an object file
+FileManager/UserFile.cpp.o:
+	$(MAKE) -f CMakeFiles/CloudPan.dir/build.make CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o
+.PHONY : FileManager/UserFile.cpp.o
+
+FileManager/UserFile.i: FileManager/UserFile.cpp.i
+
+.PHONY : FileManager/UserFile.i
+
+# target to preprocess a source file
+FileManager/UserFile.cpp.i:
+	$(MAKE) -f CMakeFiles/CloudPan.dir/build.make CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i
+.PHONY : FileManager/UserFile.cpp.i
+
+FileManager/UserFile.s: FileManager/UserFile.cpp.s
+
+.PHONY : FileManager/UserFile.s
+
+# target to generate assembly for a file
+FileManager/UserFile.cpp.s:
+	$(MAKE) -f CMakeFiles/CloudPan.dir/build.make CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s
+.PHONY : FileManager/UserFile.cpp.s
+
 UserManager/UserInfo.o: UserManager/UserInfo.cpp.o
 
 .PHONY : UserManager/UserInfo.o
@@ -189,6 +216,9 @@ help:
 	@echo "... CloudPan.o"
 	@echo "... CloudPan.i"
 	@echo "... CloudPan.s"
+	@echo "... FileManager/UserFile.o"
+	@echo "... FileManager/UserFile.i"
+	@echo "... FileManager/UserFile.s"
 	@echo "... UserManager/UserInfo.o"
 	@echo "... UserManager/UserInfo.i"
 	@echo "... UserManager/UserInfo.s"

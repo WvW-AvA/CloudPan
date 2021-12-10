@@ -37,7 +37,14 @@ bool UserManager::checkPassward(const string name,const string passward,User & u
 }
 bool UserManager::userSignUp(const User & user)
 {
-    return  insertUserDataIntoSQL(user);
+    bool res= insertUserDataIntoSQL(user);
+    if(res)
+    {
+        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email).c_str(),S_IRWXU);
+        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"filelog.txt").c_str(),"w");
+        fclose(tem);
+    }
+    return res;
 }
 User* UserManager::readUserInfoFromSQL(string name)
 {

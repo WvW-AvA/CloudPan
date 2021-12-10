@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/mua/Backend/CloudPan/CloudPan.cpp" "/home/mua/Backend/CloudPan/build/CMakeFiles/CloudPan.dir/CloudPan.cpp.o"
+  "/home/mua/Backend/CloudPan/FileManager/UserFile.cpp" "/home/mua/Backend/CloudPan/build/CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o"
   "/home/mua/Backend/CloudPan/UserManager/UserInfo.cpp" "/home/mua/Backend/CloudPan/build/CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
