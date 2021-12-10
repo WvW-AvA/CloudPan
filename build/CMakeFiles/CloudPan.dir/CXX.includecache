@@ -23,6 +23,24 @@ httplib.h
 /home/mua/Backend/CloudPan/httplib.h
 UserManager/UserInfo.hpp
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+FileManager/UserFile.hpp
+/home/mua/Backend/CloudPan/FileManager/UserFile.hpp
+
+/home/mua/Backend/CloudPan/FileManager/UserFile.cpp
+UserFile.hpp
+/home/mua/Backend/CloudPan/FileManager/UserFile.hpp
+
+/home/mua/Backend/CloudPan/FileManager/UserFile.hpp
+iostream
+-
+sys/stat.h
+-
+sys/types.h
+-
+../httplib.h
+/home/mua/Backend/CloudPan/httplib.h
+../UserManager/UserInfo.hpp
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
 
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
 iostream
@@ -32,6 +50,10 @@ vector
 map
 -
 algorithm
+-
+sys/stat.h
+-
+sys/types.h
 -
 mysql/mysql.h
 -

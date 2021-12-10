@@ -1,5 +1,6 @@
 #ifndef __USERFILE_HPP
 #define __USERFILE_HPP
+
 #include<iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -60,24 +61,16 @@ public:
     {
         return os<<"Name:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType"<<uf->get_fileType_str();
     }
-    UserFile();
-    UserFile(FileType filetype,const string & fileName,const string& filePath);
-    
-    ~UserFile();
+    UserFile(){}
+    UserFile(FileType filetype,const string & fileName,const string& filePath)
+    {
+        this->fileName=fileName;
+        this->filePath=filePath;
+        this->fileType=filetype;
+    }
+
+    ~UserFile(){}
 };
-
-UserFile::UserFile(){}
-UserFile::UserFile(FileType filetype,const string & fileName,const string& filePath)
-{
-    this->fileName=fileName;
-    this->filePath=filePath;
-    this->fileType=filetype;
-}
-
-UserFile::~UserFile()
-{
-}
-
 struct DirNode
 {
     string DirName;
@@ -102,23 +95,17 @@ public:
     void creatDir(const string & dirPath);
     void downloadFile(const UserFile & file);
     void uploadFile(const UserFile & file);
-    FileManager(User& whose);
-    ~FileManager();
+    FileManager(User& whose)
+    {
+        this->owner=whose;
+        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email;
+        userFileLog =fopen((this->fileDirPath+"filelog.txt").c_str(),"a+");
+        userFilLayers=fopen((this->fileDirPath+"fileLayer.txt").c_str(),"a+");
+        buildTree();
+    }
+
+    ~FileManager(){}
 };
-
-FileManager::FileManager(User& whose)
-{
-    this->owner=whose;
-    this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email;
-    userFileLog =fopen((this->fileDirPath+"filelog.txt").c_str(),"a+");
-    userFilLayers=fopen((this->fileDirPath+"fileLayer.txt").c_str(),"a+");
-    buildTree();
-}
-
-FileManager::~FileManager()
-{
-
-}
 
 
 #endif

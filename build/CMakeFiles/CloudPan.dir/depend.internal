@@ -4,6 +4,12 @@
 CMakeFiles/CloudPan.dir/CloudPan.cpp.o
  /home/mua/Backend/CloudPan/CloudPan.cpp
  /home/mua/Backend/CloudPan/CloudPan.hpp
+ /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
+ /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+ /home/mua/Backend/CloudPan/httplib.h
+CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o
+ /home/mua/Backend/CloudPan/FileManager/UserFile.cpp
+ /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
  /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
  /home/mua/Backend/CloudPan/httplib.h
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o

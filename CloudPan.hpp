@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include "httplib.h"
 #include "UserManager/UserInfo.hpp"
+#include "FileManager/UserFile.hpp"
 
 using namespace std;
 
