@@ -60,7 +60,7 @@ public:
     
     friend ostream & operator<< (ostream & os,UserFile* uf)
     {
-        return os<<"Name:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType:"<<uf->get_fileType_str();
+        return os<<"\nFileName:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType:"<<uf->get_fileType_str();
     }
     UserFile(){}
     UserFile(FileType filetype,const string & fileName,const string& filePath)
@@ -77,6 +77,17 @@ struct DirNode
     string DirName;
     vector<DirNode*> subDirs;
     vector<UserFile> files;
+
+    friend ostream& operator<<(ostream& os,DirNode* node)
+    {
+        os<<"----------------"+node->DirName+"-------------\n";
+        for(auto v:node->subDirs)
+            os<<"Dir:"+v->DirName;
+        for(auto v:node->files)
+            os<<&v;
+        os<<'\n';
+        return os;
+    }
 };
 
 class FileManager
@@ -92,8 +103,9 @@ public:
     FILE* userFileLog;
     FILE* userFilLayers;
 
-    void showCurrentDir();
+
     void insertNodeFile(const UserFile &file);
+    bool enterDir(const string & dirName);
     void creatDir(const string & dirPath);
     void downloadFile(const UserFile & file);
     void uploadFile(const UserFile & file);
@@ -104,6 +116,7 @@ public:
         userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/filelog.txt").c_str(),"a+");
         userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/fileLayer.txt").c_str(),"a+");
         buildTree();
+        rootDir.DirName="ROOT";
         currDir=&rootDir;
     }
 

@@ -59,14 +59,6 @@ pos:        for(i=0;i<separatedPath.size()-1;i++)
             }
            curr->files.push_back(file);
 }
-void FileManager::showCurrentDir()
-{
-    cout<<currDir->DirName<<"\n\n";
-    for(auto v:currDir->subDirs)
-    cout<<v->DirName;
-    for(auto v:currDir->files)
-    cout<<&v;
-}
 UserFile* FileManager::ReadUserFileInfo()
 {
     UserFile *result=new UserFile();
@@ -90,6 +82,7 @@ UserFile* FileManager::ReadUserFileInfo()
         else if(v[0]=="FileType")
             result->set_fileType(v[1]);
     }
+    
     return result;
 }
 
@@ -101,7 +94,18 @@ void FileManager::buildTree()
          insertNodeFile(*value);
     }
 }
-
+bool FileManager::enterDir(const string & dirName)
+{
+    for(auto v:currDir->subDirs)
+    {
+        if(v->DirName==dirName)
+        {
+            currDir=v;
+            return true;
+        }
+    }
+    return false;
+}
 void  FileManager::downloadFile(const UserFile & file)
 {
 
