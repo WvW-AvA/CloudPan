@@ -126,7 +126,12 @@ public:
         currDir=&rootDir;
     }
 
-    ~FileManager(){}
+    ~FileManager()
+    {
+        fclose(userFileLog);
+        fclose(userFilLayers);
+        delete(currDir);
+    }
 };
 
 

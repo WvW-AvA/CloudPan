@@ -73,12 +73,12 @@ bool FileManager::addFile( UserFile & file)
 {
     if(insertNodeFile(file))
     {
-        string str( "FileName:"+file.fileName+
+        string str( "\nFileName:"+file.fileName+
                     "\nFilePath:"+file.filePath+
                     "\nFileType:"+file.get_fileType_str()+
-                    "\nSTOP\n");
-        fputs(str.c_str(),userFilLayers);
-        return true;
+                    "\nSTOP" );
+        if(fputs(str.c_str(),userFilLayers));
+            return true;
     }
     return false;
 }
