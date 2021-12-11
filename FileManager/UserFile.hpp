@@ -1,10 +1,11 @@
 #ifndef __USERFILE_HPP
 #define __USERFILE_HPP
 
-#include<iostream>
+#include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <algorithm>
+#include <time.h>
 #include "../httplib.h"
 #include "../UserManager/UserInfo.hpp"
 using namespace std;
@@ -13,7 +14,13 @@ enum FileType
     txt=3,
     zip=1,
     jpg=2,
-    bin=0
+    bin=0,
+    exe=4,
+    html=5,
+    png_show=6,
+    png_download=7,
+    mp4=8,
+    rar=9
 };
 
 class UserFile
@@ -24,44 +31,15 @@ public:
     
     string fileName;
     string filePath;
-    void set_fileType(const string & str)
-    {
-        if(str=="txt")
-            fileType=(FileType)txt;
-            else if(str=="zip")
-            fileType=(FileType)zip;
-            else if(str=="jpg")
-            fileType=(FileType)jpg;
-            else
-            fileType=(FileType)bin;
-    }
-    FileType get_fileType()
-    {
-        return fileType;
-    }
-    string get_fileType_str()
-    {
-        switch (fileType)
-        {
-        case (FileType)txt:
-            return "txt";
-            break;
-        case (FileType)zip:
-            return "zip";
-            break;
-        case (FileType)jpg:
-            return "jpg";
-            break;
-        default:
-        return "bin";
-            break;
-        }
-    }
-    
+
+    void set_fileType(const string & str);
+    FileType get_fileType();
+    string get_fileType_str();
     friend ostream & operator<< (ostream & os,UserFile* uf)
     {
         return os<<"\nFileName:"<<uf->fileName<<"\nFilePath:"<<uf->filePath<<"\nFileType:"<<uf->get_fileType_str();
     }
+
     UserFile(){}
     UserFile(FileType filetype,const string & fileName,const string& filePath)
     {
@@ -106,14 +84,16 @@ public:
     FILE* userFileLog;
     FILE* userFilLayers;
 
-
+    void fileLog(const string & discribe);
+    string getPath(const UserFile &file);
     bool insertNodeFile(const UserFile &file);
     bool addFile(UserFile & file);
     bool addFile(const string & fileName,const string & filePath,const FileType fileType);
     bool enterDir(const string & dirName);
     void creatDir(const string & dirPath);
-    void downloadFile(const UserFile & file);
-    void uploadFile(const UserFile & file);
+    bool downloadFile(UserFile & file,httplib::Response &res);
+    bool uploadFile(const UserFile & file);
+    
     FileManager(User& whose)
     {
         this->owner=whose;

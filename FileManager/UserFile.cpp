@@ -1,6 +1,6 @@
 #include "UserFile.hpp"
 
-char * ReadFile(char* path,int &outFileLength)
+char * ReadFile(const char* path,int &outFileLength)
 {
 	FILE *fp=fopen(path,"rb");
 	if(!fp)
@@ -33,6 +33,73 @@ vector<string> str_split(const string& str,const string& pattern)
     return result;
 }
 
+
+void UserFile::set_fileType(const string & str)
+{
+    if(str=="text/plain")
+        fileType=(FileType)txt;
+    else if(str=="application/x-zip-compressed")
+        fileType=(FileType)zip;
+    else if(str=="application/octet-stream")
+        fileType=(FileType)rar;
+    else if(str=="video/mpeg4")
+        fileType=(FileType)mp4;
+    else if(str=="image/png")
+        fileType=(FileType)png_show;
+    else if(str=="application/png")
+        fileType=(FileType)png_download;
+    else if(str=="image/jpeg")
+        fileType=(FileType)jpg;
+    else if(str=="text/html")
+        fileType=(FileType)html;
+    else if(str=="application/x-msdownload")
+        fileType=(FileType)exe;
+    else
+        fileType=(FileType)bin;
+}  
+FileType UserFile::get_fileType()
+{
+    return fileType;
+}
+string UserFile::get_fileType_str()
+{
+    switch (fileType)
+    {
+    case (FileType)txt:
+        return "text/plain";
+        break;
+    case (FileType)zip:
+        return "application/x-zip-compressed";
+        break;
+    case (FileType)rar:
+        return "application/octet-stream";
+        break;
+    case (FileType)mp4:
+        return "video/mpeg4";
+        break;
+    case (FileType)png_show:
+        return "image/png";
+        break;
+    case (FileType)png_download:
+        return "application/png";
+        break;
+    case (FileType)jpg:
+        return "image/jpeg";
+        break;
+    case (FileType)html:
+        return "text/html";
+        break;
+    case (FileType)exe:
+        return "application/x-msdownload";
+        break;
+    default:
+    return "application/octet-stream";
+        break;
+    }
+}
+
+
+
 bool FileManager::insertNodeFile(const UserFile& file)
 {
             DirNode *curr=&rootDir;
@@ -61,14 +128,13 @@ pos:        while(i<separatedPath.size()-1)
             {
                 if(v.fileName==separatedPath[i])
                 {
-                    cout<<"Warning: File has existed.";
+                    cout<<"Warning: File has existed.\n";
                     return false;
                 }
             }
            curr->files.push_back(file);
            return true;
 }
-
 bool FileManager::addFile( UserFile & file)
 {
     if(insertNodeFile(file))
@@ -82,7 +148,6 @@ bool FileManager::addFile( UserFile & file)
     }
     return false;
 }
-
 bool FileManager::addFile(const string & fileName,const string & filePath,const FileType fileType)
 {
     UserFile* u=new UserFile(fileType,fileName,filePath);
@@ -94,7 +159,6 @@ bool FileManager::addFile(const string & fileName,const string & filePath,const 
         return false;
     }
 }
-
 UserFile* FileManager::ReadUserFileInfo()
 {
     UserFile *result=new UserFile();
@@ -130,7 +194,6 @@ void FileManager::buildTree()
          insertNodeFile(*value);
     }
 }
-
 bool FileManager::enterDir(const string & dirName)
 {
     if(dirName==".."&&currDir->parentNode)
@@ -148,12 +211,34 @@ bool FileManager::enterDir(const string & dirName)
     }
     return false;
 }
-
-void  FileManager::downloadFile(const UserFile & file)
+string FileManager::getPath(const UserFile &file)
 {
-
+    return fileDirPath+'/'+file.filePath;
 }
-void FileManager::uploadFile(const UserFile & file)
+void  FileManager::fileLog(const string & fileEvent)
+{
+    string str;
+    time_t *t;
+    time(t);
+    str="Time:"+string(asctime(localtime(t)))+'\n';
+    str+="User:"+owner.user_name+'\n';
+    str+="FileEvent:"+fileEvent+'\n';
+    fputs(str.c_str(),userFileLog);
+}
+bool FileManager::downloadFile(UserFile & file,httplib::Response &rsp)
+{
+    int file_Size;
+    char* file_Buffer=ReadFile(getPath(file).c_str(),file_Size);
+    if(!file_Buffer)
+    {
+        fileLog(file.filePath+" could not find!");
+        return false;
+    }
+    rsp.set_content(file_Buffer,file_Size,file.get_fileType_str().c_str());
+    rsp.status=200;
+    delete(file_Buffer);
+}
+bool FileManager::uploadFile(const UserFile & file)
 {
 
 }

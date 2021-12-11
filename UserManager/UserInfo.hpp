@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include "httplib.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <mysql/mysql.h>
@@ -13,8 +14,6 @@ class  User
 private:
     int id;
 public:
-
-    
     string user_name;
     string user_email;
     string user_passward_hash;
@@ -48,15 +47,14 @@ public:
 class UserManager
 {
 private:
-     map<User,FILE*> user_FILE_map;
      MYSQL mysql;
      bool mySQLInit(MYSQL &mysql);
 public:
+    //DataBase Part
     bool checkPassward(const string name,const string passward,User &userOut);
     bool userSignUp(const User & user);
     bool insertUserDataIntoSQL(const User & user);
     User* readUserInfoFromSQL(string name);
-
     UserManager()
     {
        if(!mySQLInit(mysql))
