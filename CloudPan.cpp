@@ -12,6 +12,7 @@ int main(int argc,char * argv[])
     string tem;
     while(getline(cin,tem)&&manager->enterDir(tem))
     {
+        manager->addFile("1111","4SD/DW/1111",FileType::jpg);
         cout<<manager->currDir;
     }
     return 0;

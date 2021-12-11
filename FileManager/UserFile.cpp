@@ -33,32 +33,68 @@ vector<string> str_split(const string& str,const string& pattern)
     return result;
 }
 
-void FileManager::insertNodeFile(const UserFile& file)
+bool FileManager::insertNodeFile(const UserFile& file)
 {
             DirNode *curr=&rootDir;
             vector<string> separatedPath=str_split(file.filePath,"/");
-            int i;
-pos:        for(i=0;i<separatedPath.size()-1;i++)
+            int i=0;
+pos:        while(i<separatedPath.size()-1)
             {
+                
                 for(auto v:curr->subDirs)
                 {
-                    if(v->DirName==separatedPath[i])
-                    curr=v;
-                    goto pos;
+                    if(v->dirName==separatedPath[i])
+                    {
+                        curr=v;
+                        i++;
+                        goto pos;
+                    }
                 }
                 auto t= new DirNode;
-                t->DirName=separatedPath[i];
+                t->dirName=separatedPath[i];
+                t->parentNode=curr;
                 curr->subDirs.push_back(t);
                 curr=curr->subDirs[curr->subDirs.size()-1];
+                i++;
             }
             for(auto v:curr->files)
             {
-               if(v.fileName==separatedPath[i])
-               cout<<"Warning: File has existed.";
-               return;
+                if(v.fileName==separatedPath[i])
+                {
+                    cout<<"Warning: File has existed.";
+                    return false;
+                }
             }
            curr->files.push_back(file);
+           return true;
 }
+
+bool FileManager::addFile( UserFile & file)
+{
+    if(insertNodeFile(file))
+    {
+        string str( "FileName:"+file.fileName+
+                    "\nFilePath:"+file.filePath+
+                    "\nFileType:"+file.get_fileType_str()+
+                    "\nSTOP\n");
+        fputs(str.c_str(),userFilLayers);
+        return true;
+    }
+    return false;
+}
+
+bool FileManager::addFile(const string & fileName,const string & filePath,const FileType fileType)
+{
+    UserFile* u=new UserFile(fileType,fileName,filePath);
+    if (addFile(*u))
+        return true;
+    else
+    {
+        delete(u);
+        return false;
+    }
+}
+
 UserFile* FileManager::ReadUserFileInfo()
 {
     UserFile *result=new UserFile();
@@ -73,7 +109,7 @@ UserFile* FileManager::ReadUserFileInfo()
         if(t=="STOP")
             break;
         auto v=str_split(t,":");
-        if(v.size()==1)
+        while(v.size()<=1)
             v.push_back(string());
         if(v[0]=="FileName")
             result->fileName=v[1];
@@ -94,11 +130,17 @@ void FileManager::buildTree()
          insertNodeFile(*value);
     }
 }
+
 bool FileManager::enterDir(const string & dirName)
 {
+    if(dirName==".."&&currDir->parentNode)
+    {
+        currDir=currDir->parentNode;
+        return true;
+    }
     for(auto v:currDir->subDirs)
     {
-        if(v->DirName==dirName)
+        if(v->dirName==dirName)
         {
             currDir=v;
             return true;
@@ -106,6 +148,7 @@ bool FileManager::enterDir(const string & dirName)
     }
     return false;
 }
+
 void  FileManager::downloadFile(const UserFile & file)
 {
 

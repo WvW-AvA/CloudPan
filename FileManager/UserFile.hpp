@@ -74,15 +74,18 @@ public:
 };
 struct DirNode
 {
-    string DirName;
+    string dirName;
+    DirNode* parentNode;
     vector<DirNode*> subDirs;
     vector<UserFile> files;
 
     friend ostream& operator<<(ostream& os,DirNode* node)
     {
-        os<<"----------------"+node->DirName+"-------------\n";
+        os<<"----------------"+node->dirName+"-------------\n";
+        if(node->parentNode!=NULL)
+            os<<"..\n";
         for(auto v:node->subDirs)
-            os<<"Dir:"+v->DirName;
+            os<<"Dir:"+v->dirName<<'\n';
         for(auto v:node->files)
             os<<&v;
         os<<'\n';
@@ -104,7 +107,9 @@ public:
     FILE* userFilLayers;
 
 
-    void insertNodeFile(const UserFile &file);
+    bool insertNodeFile(const UserFile &file);
+    bool addFile(UserFile & file);
+    bool addFile(const string & fileName,const string & filePath,const FileType fileType);
     bool enterDir(const string & dirName);
     void creatDir(const string & dirPath);
     void downloadFile(const UserFile & file);
@@ -116,7 +121,8 @@ public:
         userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/filelog.txt").c_str(),"a+");
         userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/fileLayer.txt").c_str(),"a+");
         buildTree();
-        rootDir.DirName="ROOT";
+        rootDir.dirName="ROOT";
+        rootDir.parentNode=NULL;
         currDir=&rootDir;
     }
 
