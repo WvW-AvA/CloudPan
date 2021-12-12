@@ -4,11 +4,13 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "httplib.h"
+#include "../httplib.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <mysql/mysql.h>
+
 using namespace std;
+class FileManager;
 class  User
 {
 private:
@@ -17,6 +19,8 @@ public:
     string user_name;
     string user_email;
     string user_passward_hash;
+    FileManager * fileManager;
+    
 
     User(const string & user_name,const string & user_email ,const string &user_passward_hash )
     {
@@ -49,9 +53,11 @@ class UserManager
 private:
      MYSQL mysql;
      bool mySQLInit(MYSQL &mysql);
+     
 public:
+    vector<User*> users;
     //DataBase Part
-    bool checkPassward(const string name,const string passward,User &userOut);
+    bool checkPassward(const string name,const string passward,User *userOut);
     bool userSignUp(const User & user);
     bool insertUserDataIntoSQL(const User & user);
     User* readUserInfoFromSQL(string name);

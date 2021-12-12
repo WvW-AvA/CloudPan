@@ -24,17 +24,18 @@ bool UserManager::mySQLInit(MYSQL &mysql)
 }
 
 
-bool UserManager::checkPassward(const string name,const string passward,User & userOut)
+bool UserManager::checkPassward(const string name,const string passward,User * userOut)
 {
     User* tem=readUserInfoFromSQL(name);
-    if(passward==tem->user_passward_hash)
+    if(tem&&passward==tem->user_passward_hash)
         {
-            userOut=*tem;
+            userOut=tem;
             return true;
         }
     else
         return false;
 }
+
 bool UserManager::userSignUp(const User & user)
 {
     bool res= insertUserDataIntoSQL(user);
@@ -49,6 +50,7 @@ bool UserManager::userSignUp(const User & user)
     }
     return res;
 }
+
 User* UserManager::readUserInfoFromSQL(string name)
 {
     User *result= new User();
@@ -75,6 +77,7 @@ User* UserManager::readUserInfoFromSQL(string name)
     result->user_passward_hash=row[3];
     return result;
 }
+
 bool UserManager::insertUserDataIntoSQL(const User & user)
 {
     string tem("insert into UserInfo (name,email,passward)value(\""+

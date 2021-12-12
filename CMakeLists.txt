@@ -2,16 +2,15 @@ cmake_minimum_required(VERSION 3.4.1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -pthread -fopenmp")
 
 project(CloudPan)
 
 # add_library(CloudPan SHARED 
 #                 CloudPan.cpp)
-
-add_executable(CloudPan CloudPan.cpp httplib.h CloudPan.hpp FileManager/UserFile.cpp FileManager/UserFile.hpp UserManager/UserInfo.cpp UserManager/UserInfo.hpp)
+add_executable(CloudPan CloudPan.cpp httplib.h CloudPan.hpp UserManager/UserInfo.cpp UserManager/UserInfo.hpp FileManager/UserFile.cpp FileManager/UserFile.hpp )
                 
-add_compile_options(-L/usr/lib/x86_64-linux-gnu -g -lmysqlclient -lpthread -ldl -lz -lssl -lcrypto -lresolv -lm -lrt)
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(MySQL)
 

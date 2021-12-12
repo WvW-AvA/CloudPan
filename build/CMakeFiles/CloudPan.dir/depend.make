@@ -14,4 +14,5 @@ CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o: ../httplib.h
 
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../UserManager/UserInfo.cpp
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../UserManager/UserInfo.hpp
+CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../httplib.h
 

@@ -15,3 +15,4 @@ CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o
  /home/mua/Backend/CloudPan/UserManager/UserInfo.cpp
  /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+ /home/mua/Backend/CloudPan/httplib.h

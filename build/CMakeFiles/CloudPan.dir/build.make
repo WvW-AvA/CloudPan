@@ -70,22 +70,9 @@ CMakeFiles/CloudPan.dir/CloudPan.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CloudPan.dir/CloudPan.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mua/Backend/CloudPan/CloudPan.cpp -o CMakeFiles/CloudPan.dir/CloudPan.cpp.s
 
-CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o: CMakeFiles/CloudPan.dir/flags.make
-CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o: ../FileManager/UserFile.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mua/Backend/CloudPan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o -c /home/mua/Backend/CloudPan/FileManager/UserFile.cpp
-
-CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mua/Backend/CloudPan/FileManager/UserFile.cpp > CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i
-
-CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mua/Backend/CloudPan/FileManager/UserFile.cpp -o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s
-
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: CMakeFiles/CloudPan.dir/flags.make
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o: ../UserManager/UserInfo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mua/Backend/CloudPan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mua/Backend/CloudPan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o -c /home/mua/Backend/CloudPan/UserManager/UserInfo.cpp
 
 CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.i: cmake_force
@@ -96,18 +83,31 @@ CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mua/Backend/CloudPan/UserManager/UserInfo.cpp -o CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.s
 
+CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o: CMakeFiles/CloudPan.dir/flags.make
+CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o: ../FileManager/UserFile.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mua/Backend/CloudPan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o -c /home/mua/Backend/CloudPan/FileManager/UserFile.cpp
+
+CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mua/Backend/CloudPan/FileManager/UserFile.cpp > CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.i
+
+CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mua/Backend/CloudPan/FileManager/UserFile.cpp -o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.s
+
 # Object files for target CloudPan
 CloudPan_OBJECTS = \
 "CMakeFiles/CloudPan.dir/CloudPan.cpp.o" \
-"CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o" \
-"CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o"
+"CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o" \
+"CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o"
 
 # External object files for target CloudPan
 CloudPan_EXTERNAL_OBJECTS =
 
 CloudPan: CMakeFiles/CloudPan.dir/CloudPan.cpp.o
-CloudPan: CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o
 CloudPan: CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o
+CloudPan: CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o
 CloudPan: CMakeFiles/CloudPan.dir/build.make
 CloudPan: /usr/lib/x86_64-linux-gnu/libmysqlclient.so
 CloudPan: CMakeFiles/CloudPan.dir/link.txt

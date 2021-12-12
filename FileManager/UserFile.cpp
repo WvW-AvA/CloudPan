@@ -102,38 +102,38 @@ string UserFile::get_fileType_str()
 
 bool FileManager::insertNodeFile(const UserFile& file)
 {
-            DirNode *curr=&rootDir;
-            vector<string> separatedPath=str_split(file.filePath,"/");
-            int i=0;
-pos:        while(i<separatedPath.size()-1)
-            {
-                
-                for(auto v:curr->subDirs)
-                {
-                    if(v->dirName==separatedPath[i])
-                    {
-                        curr=v;
-                        i++;
-                        goto pos;
-                    }
-                }
-                auto t= new DirNode;
-                t->dirName=separatedPath[i];
-                t->parentNode=curr;
-                curr->subDirs.push_back(t);
-                curr=curr->subDirs[curr->subDirs.size()-1];
-                i++;
-            }
-            for(auto v:curr->files)
-            {
-                if(v.fileName==separatedPath[i])
-                {
-                    cout<<"Warning: File has existed.\n";
-                    return false;
-                }
-            }
-           curr->files.push_back(file);
-           return true;
+DirNode *curr=&rootDir;
+vector<string> separatedPath=str_split(file.filePath,"/");
+int i=0;
+pos: while(i<separatedPath.size()-1)
+{
+    
+    for(auto v:curr->subDirs)
+    {
+        if(v->dirName==separatedPath[i])
+        {
+            curr=v;
+            i++;
+            goto pos;
+        }
+    }
+    auto t= new DirNode;
+    t->dirName=separatedPath[i];
+    t->parentNode=curr;
+    curr->subDirs.push_back(t);
+    curr=curr->subDirs[curr->subDirs.size()-1];
+    i++;
+}
+for(auto v:curr->files)
+{
+    if(v.fileName==separatedPath[i])
+    {
+        cout<<"Warning: File has existed.\n";
+        return false;
+    }
+}
+curr->files.push_back(file);
+return true;
 }
 bool FileManager::addFile( UserFile & file)
 {
@@ -191,6 +191,7 @@ void FileManager::buildTree()
     char filePath[1000];
     while(auto value=ReadUserFileInfo())
     {
+        cout<<"inser";
          insertNodeFile(*value);
     }
 }
@@ -221,7 +222,7 @@ void  FileManager::fileLog(const string & fileEvent)
     time_t *t;
     time(t);
     str="Time:"+string(asctime(localtime(t)))+'\n';
-    str+="User:"+owner.user_name+'\n';
+    str+="User:"+owner->user_name+'\n';
     str+="FileEvent:"+fileEvent+'\n';
     fputs(str.c_str(),userFileLog);
 }
@@ -237,6 +238,10 @@ bool FileManager::downloadFile(UserFile & file,httplib::Response &rsp)
     rsp.set_content(file_Buffer,file_Size,file.get_fileType_str().c_str());
     rsp.status=200;
     delete(file_Buffer);
+}
+bool FileManager::getCurrentDir(httplib::Response &res)
+{
+    
 }
 bool FileManager::uploadFile(const UserFile & file)
 {

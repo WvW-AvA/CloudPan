@@ -9,6 +9,7 @@
 #include "../httplib.h"
 #include "../UserManager/UserInfo.hpp"
 using namespace std;
+
 enum FileType
 {
     txt=3,
@@ -22,7 +23,6 @@ enum FileType
     mp4=8,
     rar=9
 };
-
 class UserFile
 {
 private:
@@ -57,6 +57,19 @@ struct DirNode
     vector<DirNode*> subDirs;
     vector<UserFile> files;
 
+    string toStr()
+    {
+        string str;
+        if(this->parentNode!=NULL)
+            str=str+"..\n";
+        for(auto v:this->subDirs)
+            str+="Dir:"+v->dirName+'\n';
+        for(auto v:this->files)
+            str+="File:"+v.fileName+'\n';
+        str+='\n';
+        return str;
+    }
+
     friend ostream& operator<<(ostream& os,DirNode* node)
     {
         os<<"----------------"+node->dirName+"-------------\n";
@@ -78,7 +91,7 @@ private:
     UserFile* ReadUserFileInfo();
     void buildTree();
 public:
-    User owner;
+    User* owner;
     DirNode* currDir;
     string fileDirPath;
     FILE* userFileLog;
@@ -91,16 +104,18 @@ public:
     bool addFile(const string & fileName,const string & filePath,const FileType fileType);
     bool enterDir(const string & dirName);
     void creatDir(const string & dirPath);
+    bool getCurrentDir(httplib::Response &res);
     bool downloadFile(UserFile & file,httplib::Response &res);
     bool uploadFile(const UserFile & file);
     
-    FileManager(User& whose)
+    FileManager(User* whose)
     {
         this->owner=whose;
-        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/Data";
-        userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/filelog.txt").c_str(),"a+");
-        userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner.user_name+"+"+owner.user_email+"/fileLayer.txt").c_str(),"a+");
+        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/Data";
+        userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
+        userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
         buildTree();
+        cout<<"BuildTreeSucceed";
         rootDir.dirName="ROOT";
         rootDir.parentNode=NULL;
         currDir=&rootDir;
