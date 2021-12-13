@@ -9,7 +9,6 @@
 #include "../httplib.h"
 #include "../UserManager/UserInfo.hpp"
 using namespace std;
-
 enum FileType
 {
     txt=3,
@@ -96,7 +95,9 @@ public:
     string fileDirPath;
     FILE* userFileLog;
     FILE* userFilLayers;
-
+    
+    static char * ReadFile(const char* path,int &outFileLength);
+    static vector<string> str_split(const string& str,const string& pattern);
     void fileLog(const string & discribe);
     string getPath(const UserFile &file);
     bool insertNodeFile(const UserFile &file);
@@ -111,10 +112,14 @@ public:
     FileManager(User* whose)
     {
         this->owner=whose;
-        this->fileDirPath="/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/Data";
-        userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
-        userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
-        buildTree();
+        cout<<"1\n";
+        this->fileDirPath+="/home/mua/Backend/CloudPan/UserFile/"+whose->user_name+"+"+whose->user_email+"/Data";
+        cout<<"2\n";
+        this->userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
+        cout<<"3\n";
+        this->userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
+        cout<<"BuildTreeSucceed";
+        //buildTree();
         cout<<"BuildTreeSucceed";
         rootDir.dirName="ROOT";
         rootDir.parentNode=NULL;
@@ -123,11 +128,13 @@ public:
 
     ~FileManager()
     {
-        fclose(userFileLog);
-        fclose(userFilLayers);
-        delete(currDir);
+        // fclose(userFileLog);
+        // fclose(userFilLayers);
+        // delete(currDir);
     }
 };
+
+
 
 
 #endif

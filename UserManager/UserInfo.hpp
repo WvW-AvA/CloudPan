@@ -57,7 +57,7 @@ private:
 public:
     vector<User*> users;
     //DataBase Part
-    bool checkPassward(const string name,const string passward,User *userOut);
+    bool checkPassward(const string name,const string passward,User **userOut);
     bool userSignUp(const User & user);
     bool insertUserDataIntoSQL(const User & user);
     User* readUserInfoFromSQL(string name);
@@ -65,8 +65,9 @@ public:
     {
        if(!mySQLInit(mysql))
        {
-           delete(this);
+          delete(this);
        }
+       cout<<"UserManager Init Succeed\n";
     }
 
     ~UserManager()

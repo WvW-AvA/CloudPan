@@ -1,6 +1,7 @@
 #include "UserFile.hpp"
 
-char * ReadFile(const char* path,int &outFileLength)
+
+char * FileManager::ReadFile(const char* path,int &outFileLength)
 {
 	FILE *fp=fopen(path,"rb");
 	if(!fp)
@@ -18,7 +19,7 @@ char * ReadFile(const char* path,int &outFileLength)
 	return file_buffer;
 }
 
-vector<string> str_split(const string& str,const string& pattern)
+vector<string> FileManager::str_split(const string& str,const string& pattern)
 {
     char*strc=new char[strlen(str.c_str())+1];
     strcpy(strc,str.c_str());
@@ -32,7 +33,6 @@ vector<string> str_split(const string& str,const string& pattern)
     delete[] strc;
     return result;
 }
-
 
 void UserFile::set_fileType(const string & str)
 {

@@ -57,14 +57,26 @@ struct SignInData
     }
 };
 
+void CloudPan::getLoginView(const httplib::Request &req, httplib::Response &rsp)
+{
+    int size;
+    char* str=FileManager::ReadFile("/home/mua/Backend/CloudPan/LoginIn.html",size);
+    rsp.set_content(str,size,"text/html");
+    rsp.status=200;
+}
 
+void CloudPan::testView(const httplib::Request& req,httplib::Response& rsp)
+{
+    
+}
 
 void CloudPan::loginView(const httplib::Request& req,httplib::Response& rsp)
 {
     SignInData tem(req);
     User *user;
-    if(userManager->checkPassward(tem.userName,tem.password,user))
+    if(userManager->checkPassward(tem.userName,tem.password,&user))
     {
+        cout<<"Succed SingIn\n";
         user->fileManager=new FileManager(user);
         userManager->users.push_back(user);
         rsp.set_content(creat_Login_html(true),"text/html");
@@ -94,7 +106,16 @@ void CloudPan::cloudPanView(const httplib::Request& req,httplib::Response& rsp)
 
 }
 
-
+void CloudPan::acceptUserRequest()
+{
+    for(auto user:userManager->users)
+    {
+        server.Get("/"+user->user_name,bind(&CloudPan::cloudPanView,this,placeholders::_1,placeholders::_2));
+        server.Post("/"+user->user_name,[&](const httplib::Request& req,httplib::Response& rsp){
+            cloudPanView(req,rsp);
+        });
+    }
+}
 int main(int argc,char * argv[])
 {
     // User test("dsd","dsda","dsadasda");

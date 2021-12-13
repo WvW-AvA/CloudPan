@@ -48,6 +48,10 @@ time.h
 ../UserManager/UserInfo.hpp
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
 
+/home/mua/Backend/CloudPan/UserManager/UserInfo.cpp
+UserInfo.hpp
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
 iostream
 -

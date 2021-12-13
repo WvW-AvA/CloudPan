@@ -24,12 +24,12 @@ bool UserManager::mySQLInit(MYSQL &mysql)
 }
 
 
-bool UserManager::checkPassward(const string name,const string passward,User * userOut)
+bool UserManager::checkPassward(const string name,const string passward,User ** userOut)
 {
     User* tem=readUserInfoFromSQL(name);
     if(tem&&passward==tem->user_passward_hash)
         {
-            userOut=tem;
+            *userOut=tem;
             return true;
         }
     else

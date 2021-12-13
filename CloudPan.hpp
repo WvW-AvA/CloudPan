@@ -17,22 +17,28 @@ private:
     UserManager* userManager;
     httplib::Server server;
 public:
+    void testView(const httplib::Request &req, httplib::Response &rsp);
     void loginView(const httplib::Request &req, httplib::Response &rsp);
+    void getLoginView(const httplib::Request &req, httplib::Response &rsp);
     void signUpView(const httplib::Request& req,httplib::Response& rsp);
     void cloudPanView(const httplib::Request& req,httplib::Response& rsp);
-
+    void acceptUserRequest();
     CloudPan()
     {
         userManager=new UserManager();
-        server.Get("/",bind(&CloudPan::loginView,this,placeholders::_1,placeholders::_2));
-
+        if(userManager==nullptr)
+            return;
+        server.Get("/",[&](const httplib::Request& req,httplib::Response& rsp){
+            getLoginView(req,rsp);
+        });
+        server.Post("/",[&](const httplib::Request& req,httplib::Response& rsp){
+            loginView(req,rsp);
+        });
         server.listen("0.0.0.0",8000);
-        pause();
     }
     ~CloudPan()
     {
-        delete(&server);
-        delete(userManager);
+        
     }
 };
 
