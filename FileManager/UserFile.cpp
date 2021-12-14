@@ -239,15 +239,31 @@ bool FileManager::downloadFile(UserFile & file,httplib::Response &rsp)
     rsp.status=200;
     delete(file_Buffer);
 }
-bool FileManager::getCurrentDir(httplib::Response &res)
+bool FileManager::downloadFile_str(string & fileName,httplib::Response &res)
 {
-    
+    return downloadFile(getUserFileWithName(fileName),res);
+}
+UserFile& FileManager::getUserFileWithName(string & name)
+{
+    for(auto value:currDir->files)
+    {
+        if(value.fileName==name)
+            return value;
+    }
 }
 bool FileManager::uploadFile(const UserFile & file)
 {
 
 }
-void FileManager::creatDir(const string & dirPath)
+void FileManager::creatDir(const string & dirName)
 {
-    mkdir((fileDirPath+dirPath).c_str(),S_IRWXU);
+    DirNode* tem=currDir;
+    string str("/");
+    while(tem->parentNode)
+    {
+        str="/"+tem->dirName+str;
+        tem=tem->parentNode;
+    }
+    mkdir((fileDirPath+str+dirName).c_str(),S_IRWXU);
+    currDir->subDirs.push_back(new DirNode(currDir,dirName));
 }
