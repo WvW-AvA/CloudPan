@@ -57,6 +57,7 @@ User* UserManager::readUserInfoFromSQL(string name)
     MYSQL_RES *res;
     MYSQL_ROW row;
     string tem("select * from UserInfo where name =\""+name+"\"");
+    cout<<tem<<'\n';
     if(mysql_query(&mysql,tem.c_str()))
     {
         cout<<"Could not Read UserInfo from databases\n";
@@ -72,9 +73,10 @@ User* UserManager::readUserInfoFromSQL(string name)
     
     row=mysql_fetch_row(res);
     result->set_id(stoi(row[0]));
-    result->user_email=row[1];
-    result->user_name=row[2];
+    result->user_email=row[2];
+    result->user_name=row[1];
     result->user_passward_hash=row[3];
+    mysql_free_result(res);
     return result;
 }
 

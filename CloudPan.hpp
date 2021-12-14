@@ -14,20 +14,18 @@ using namespace std;
 class CloudPan
 {
 private:
-    UserManager* userManager;
+    UserManager userManager;
     httplib::Server server;
 public:
     void testView(const httplib::Request &req, httplib::Response &rsp);
     void loginView(const httplib::Request &req, httplib::Response &rsp);
     void getLoginView(const httplib::Request &req, httplib::Response &rsp);
     void signUpView(const httplib::Request& req,httplib::Response& rsp);
-    void cloudPanView(const httplib::Request& req,httplib::Response& rsp);
-    void acceptUserRequest();
+    void cloudPanView(User& user,const httplib::Request& req,httplib::Response& rsp);
+    void acceptUserRequest(User& user);
     CloudPan()
     {
-        userManager=new UserManager();
-        if(userManager==nullptr)
-            return;
+        
         server.Get("/",[&](const httplib::Request& req,httplib::Response& rsp){
             getLoginView(req,rsp);
         });

@@ -40,7 +40,7 @@ public:
     void set_id(int id){this->id=id;}
     friend ostream & operator<<(ostream &os ,User * User)
     {
-        return os<<User->id<<" "<<User->user_email<<" "<<User->user_name<<" "<<User->user_passward_hash<<"\n"; 
+        return os<<User->id<<" Name:"<<User->user_name<<" Email:"<<User->user_email<<" Passward:"<<User->user_passward_hash<<"\n"; 
     }
     ~ User()
     {
@@ -55,7 +55,7 @@ private:
      bool mySQLInit(MYSQL &mysql);
      
 public:
-    vector<User*> users;
+    vector<User> users;
     //DataBase Part
     bool checkPassward(const string name,const string passward,User **userOut);
     bool userSignUp(const User & user);

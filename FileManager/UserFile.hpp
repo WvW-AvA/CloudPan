@@ -68,7 +68,16 @@ struct DirNode
         str+='\n';
         return str;
     }
-
+    DirNode()
+    {
+        dirName="ROOT";
+        parentNode=NULL;
+    }
+    DirNode(DirNode *parent,const string& name)
+    {
+        dirName=name;
+        parentNode=parent;
+    }
     friend ostream& operator<<(ostream& os,DirNode* node)
     {
         os<<"----------------"+node->dirName+"-------------\n";
@@ -104,22 +113,19 @@ public:
     bool addFile(UserFile & file);
     bool addFile(const string & fileName,const string & filePath,const FileType fileType);
     bool enterDir(const string & dirName);
-    void creatDir(const string & dirPath);
-    bool getCurrentDir(httplib::Response &res);
+    void creatDir(const string & dirName);
+    UserFile& getUserFileWithName(string & name);
     bool downloadFile(UserFile & file,httplib::Response &res);
+    bool downloadFile_str(string & fileName,httplib::Response &res);
     bool uploadFile(const UserFile & file);
     
     FileManager(User* whose)
     {
         this->owner=whose;
-        cout<<"1\n";
-        this->fileDirPath+="/home/mua/Backend/CloudPan/UserFile/"+whose->user_name+"+"+whose->user_email+"/Data";
-        cout<<"2\n";
-        this->userFileLog =fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
-        cout<<"3\n";
-        this->userFilLayers=fopen(("/home/mua/Backend/CloudPan/UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
-        cout<<"BuildTreeSucceed";
-        //buildTree();
+        this->fileDirPath="../UserFile/"+whose->user_name+"+"+whose->user_email+"/Data";
+        this->userFileLog =fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
+        this->userFilLayers=fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
+        buildTree();
         cout<<"BuildTreeSucceed";
         rootDir.dirName="ROOT";
         rootDir.parentNode=NULL;
