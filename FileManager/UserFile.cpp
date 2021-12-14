@@ -36,7 +36,9 @@ vector<string> FileManager::str_split(const string& str,const string& pattern)
 
 void UserFile::set_fileType(const string & str)
 {
-    if(str=="text/plain")
+    if(str=="DIR")
+        fileType=(FileType)DIR;
+    else if(str=="text/plain")
         fileType=(FileType)txt;
     else if(str=="application/x-zip-compressed")
         fileType=(FileType)zip;
@@ -65,6 +67,9 @@ string UserFile::get_fileType_str()
 {
     switch (fileType)
     {
+    case(FileType)DIR:
+        return "DIR";
+        break;
     case (FileType)txt:
         return "text/plain";
         break;
@@ -132,7 +137,10 @@ for(auto v:curr->files)
         return false;
     }
 }
-curr->files.push_back(file);
+if(file.fileType==(FileType)DIR)
+    curr->subDirs.push_back(new DirNode(curr,file.fileName));
+else
+    curr->files.push_back(file);
 return true;
 }
 bool FileManager::addFile( UserFile & file)
@@ -144,7 +152,11 @@ bool FileManager::addFile( UserFile & file)
                     "\nFileType:"+file.get_fileType_str()+
                     "\nSTOP" );
         if(fputs(str.c_str(),userFilLayers));
+        {
+            fclose(userFilLayers);
+            this->userFilLayers=fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
             return true;
+        }
     }
     return false;
 }
@@ -197,7 +209,7 @@ void FileManager::buildTree()
 }
 bool FileManager::enterDir(const string & dirName)
 {
-    if(dirName==".."&&currDir->parentNode)
+    if(dirName==".."&&currDir->parentNode!=NULL)
     {
         currDir=currDir->parentNode;
         return true;
@@ -230,6 +242,7 @@ bool FileManager::downloadFile(UserFile & file,httplib::Response &rsp)
 {
     int file_Size;
     char* file_Buffer=ReadFile(getPath(file).c_str(),file_Size);
+    cout<<"\nRead File Done\n";
     if(!file_Buffer)
     {
         fileLog(file.filePath+" could not find!");
@@ -238,18 +251,29 @@ bool FileManager::downloadFile(UserFile & file,httplib::Response &rsp)
     rsp.set_content(file_Buffer,file_Size,file.get_fileType_str().c_str());
     rsp.status=200;
     delete(file_Buffer);
+    return true;
 }
 bool FileManager::downloadFile_str(string & fileName,httplib::Response &res)
 {
-    return downloadFile(getUserFileWithName(fileName),res);
+    UserFile* tem;
+    if(tem=getUserFileWithName(fileName))
+        return downloadFile(*tem,res);
+    else
+        return false;
 }
-UserFile& FileManager::getUserFileWithName(string & name)
+UserFile* FileManager::getUserFileWithName(string & name)
 {
+    UserFile* tem;
     for(auto value:currDir->files)
     {
         if(value.fileName==name)
-            return value;
+        {
+            tem=new UserFile(value);
+            cout<<"\n getNameSucceed\n";
+            return tem;
+        }
     }
+    return nullptr;
 }
 bool FileManager::uploadFile(const UserFile & file)
 {
@@ -258,12 +282,13 @@ bool FileManager::uploadFile(const UserFile & file)
 void FileManager::creatDir(const string & dirName)
 {
     DirNode* tem=currDir;
-    string str("/");
+    string str;
     while(tem->parentNode)
     {
         str="/"+tem->dirName+str;
         tem=tem->parentNode;
     }
-    mkdir((fileDirPath+str+dirName).c_str(),S_IRWXU);
-    currDir->subDirs.push_back(new DirNode(currDir,dirName));
+    if(addFile(dirName,str+dirName,(FileType)DIR))
+        mkdir((fileDirPath+str+dirName).c_str(),S_IRWXU);
+    
 }

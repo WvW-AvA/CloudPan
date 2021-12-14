@@ -98,8 +98,8 @@ void CloudPan::loginView(const httplib::Request& req,httplib::Response& rsp)
     {
         cout<<user<<"Succed SingIn\n";
         user->fileManager=new FileManager(user);
-        userManager.users.push_back(User(*user));
-        acceptUserRequest(userManager.users[userManager.users.size()-1]);
+        userManager.users[user->user_name]=User(*user);
+        acceptUserRequest(userManager.users[user->user_name]);
         rsp.set_content(creat_Dir_html(user->fileManager->currDir),"text/html");
     }else
     {
@@ -139,9 +139,9 @@ void CloudPan::cloudPanView(User& user,const httplib::Request& req,httplib::Resp
     }
     else if(event.event=="Download")
     {
-        if(user.fileManager->downloadFile_str(event.dirName,rsp))
+        if(user.fileManager->downloadFile_str(event.fileName,rsp))
         {
-
+           
         }
         else
         {
@@ -154,16 +154,19 @@ void CloudPan::cloudPanView(User& user,const httplib::Request& req,httplib::Resp
         cout<<&user<<"Creat Dir"<<event.dirName<<"Succeed";
         rsp.set_content(creat_Dir_html(user.fileManager->currDir),"text/html");
     }
+    // else if(event.event=="Exit")
+    // {
+    //    userManager.users.erase(user.user_name);
+    // }
     else 
     {
-        rsp.set_content(creat_SignUp_html(false),"text/html");
+        rsp.set_content(creat_Dir_html(user.fileManager->currDir),"text/html");
     }
     rsp.status=200;
 }
 
 void CloudPan::acceptUserRequest(User& user)
-{
-    
+{   
     server.Get("/"+user.user_name,[&](const httplib::Request& req,httplib::Response& rsp){
         cloudPanView(user,req,rsp);
     });

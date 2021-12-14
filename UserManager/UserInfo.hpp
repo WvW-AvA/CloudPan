@@ -44,6 +44,7 @@ public:
     }
     ~ User()
     {
+       // delete(fileManager);
     }    
 };
 
@@ -55,7 +56,7 @@ private:
      bool mySQLInit(MYSQL &mysql);
      
 public:
-    vector<User> users;
+    map<string,User> users;
     //DataBase Part
     bool checkPassward(const string name,const string passward,User **userOut);
     bool userSignUp(const User & user);

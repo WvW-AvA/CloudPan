@@ -5,12 +5,14 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <algorithm>
+#include <map>
 #include <time.h>
 #include "../httplib.h"
 #include "../UserManager/UserInfo.hpp"
 using namespace std;
 enum FileType
 {
+    DIR=10,
     txt=3,
     zip=1,
     jpg=2,
@@ -25,9 +27,9 @@ enum FileType
 class UserFile
 {
 private:
-    FileType fileType;
-public:
     
+public:
+    FileType fileType;
     string fileName;
     string filePath;
 
@@ -114,7 +116,7 @@ public:
     bool addFile(const string & fileName,const string & filePath,const FileType fileType);
     bool enterDir(const string & dirName);
     void creatDir(const string & dirName);
-    UserFile& getUserFileWithName(string & name);
+    UserFile* getUserFileWithName(string & name);
     bool downloadFile(UserFile & file,httplib::Response &res);
     bool downloadFile_str(string & fileName,httplib::Response &res);
     bool uploadFile(const UserFile & file);
@@ -134,9 +136,9 @@ public:
 
     ~FileManager()
     {
-        // fclose(userFileLog);
-        // fclose(userFilLayers);
-        // delete(currDir);
+        fclose(userFileLog);
+        fclose(userFilLayers);
+        delete(currDir);
     }
 };
 
