@@ -6,8 +6,26 @@
 
 #IncludeRegexTransform: 
 
-/home/mua/Backend/CloudPan/FileManager/UserFile.cpp
-UserFile.hpp
+/home/mua/Backend/CloudPan/CloudPan.cpp
+CloudPan.hpp
+/home/mua/Backend/CloudPan/CloudPan.hpp
+
+/home/mua/Backend/CloudPan/CloudPan.hpp
+iostream
+-
+mysql/mysql.h
+-
+sys/stat.h
+-
+sys/types.h
+-
+unistd.h
+-
+httplib.h
+/home/mua/Backend/CloudPan/httplib.h
+UserManager/UserInfo.hpp
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+FileManager/UserFile.hpp
 /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
 
 /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
