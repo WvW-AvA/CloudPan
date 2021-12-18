@@ -275,9 +275,26 @@ UserFile* FileManager::getUserFileWithName(string & name)
     }
     return nullptr;
 }
-bool FileManager::uploadFile(const UserFile & file)
+bool FileManager::uploadFile(httplib::MultipartFormData & file)
 {
-
+    DirNode* tem=currDir;
+    string str;
+    while(tem->parentNode)
+    {
+        str=tem->dirName+'/'+str;
+        tem=tem->parentNode;
+    }
+    UserFile userFile(file.content_type,file.filename,str+file.filename);
+    if(addFile(userFile))
+    {
+        ofstream ofs(fileDirPath+'/'+userFile.filePath,ios::binary);
+        ofs<<file.content;
+        ofs.close();
+        cout<<"done";
+        return true;
+    }
+    return false;
+        
 }
 void FileManager::creatDir(const string & dirName)
 {
@@ -285,10 +302,9 @@ void FileManager::creatDir(const string & dirName)
     string str;
     while(tem->parentNode)
     {
-        str="/"+tem->dirName+str;
+        str=tem->dirName+'/'+str;
         tem=tem->parentNode;
     }
     if(addFile(dirName,str+dirName,(FileType)DIR))
-        mkdir((fileDirPath+str+dirName).c_str(),S_IRWXU);
-    
+        mkdir((fileDirPath+'/'+str+dirName).c_str(),S_IRWXU);
 }

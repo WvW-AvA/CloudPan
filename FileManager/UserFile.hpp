@@ -48,6 +48,12 @@ public:
         this->filePath=filePath;
         this->fileType=filetype;
     }
+    UserFile(const string & fileType,const string & fileName,const string& filePath)
+    {
+        this->fileName=fileName;
+        this->filePath=filePath;
+        set_fileType(fileType);
+    }
 
     ~UserFile(){}
 };
@@ -119,7 +125,7 @@ public:
     UserFile* getUserFileWithName(string & name);
     bool downloadFile(UserFile & file,httplib::Response &res);
     bool downloadFile_str(string & fileName,httplib::Response &res);
-    bool uploadFile(const UserFile & file);
+    bool uploadFile(httplib::MultipartFormData & file);
     
     FileManager(User* whose)
     {

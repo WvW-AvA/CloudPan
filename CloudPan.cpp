@@ -154,10 +154,16 @@ void CloudPan::cloudPanView(User& user,const httplib::Request& req,httplib::Resp
         cout<<&user<<"Creat Dir"<<event.dirName<<"Succeed";
         rsp.set_content(creat_Dir_html(user.fileManager->currDir),"text/html");
     }
-    // else if(event.event=="Exit")
-    // {
-    //    userManager.users.erase(user.user_name);
-    // }
+    else if(event.event=="Upload")
+    {
+        if(req.has_file("File"))
+        {
+            cout<<"getFile\n";
+            auto file= req.get_file_value("File");
+            user.fileManager->uploadFile(file);
+            rsp.set_content(creat_Dir_html(user.fileManager->currDir),"text/html");
+        }
+    }
     else 
     {
         rsp.set_content(creat_Dir_html(user.fileManager->currDir),"text/html");
