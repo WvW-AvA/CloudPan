@@ -1,5 +1,4 @@
-#ifndef __USERFILE_HPP
-#define __USERFILE_HPP
+#pragma once
 
 #include <iostream>
 #include <sys/stat.h>
@@ -8,8 +7,10 @@
 #include <map>
 #include <time.h>
 #include "../httplib.h"
-#include "../UserManager/UserInfo.hpp"
+
 using namespace std;
+
+class User;
 enum FileType
 {
     DIR=10,
@@ -107,7 +108,7 @@ private:
     UserFile* ReadUserFileInfo();
     void buildTree();
 public:
-    User* owner;
+    User * owner;
     DirNode* currDir;
     string fileDirPath;
     FILE* userFileLog;
@@ -127,28 +128,7 @@ public:
     bool downloadFile_str(string & fileName,httplib::Response &res);
     bool uploadFile(httplib::MultipartFormData & file);
     
-    FileManager(User* whose)
-    {
-        this->owner=whose;
-        this->fileDirPath="../UserFile/"+whose->user_name+"+"+whose->user_email+"/Data";
-        this->userFileLog =fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
-        this->userFilLayers=fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
-        buildTree();
-        cout<<"BuildTreeSucceed";
-        rootDir.dirName="ROOT";
-        rootDir.parentNode=NULL;
-        currDir=&rootDir;
-    }
+    FileManager(User* whose);
 
-    ~FileManager()
-    {
-        fclose(userFileLog);
-        fclose(userFilLayers);
-        delete(currDir);
-    }
+    ~FileManager();
 };
-
-
-
-
-#endif

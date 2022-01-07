@@ -1,5 +1,24 @@
 #include "UserFile.hpp"
+#include "../UserManager/UserInfo.hpp"
 
+FileManager::FileManager(User* whose):owner(whose)
+{
+    this->fileDirPath="../UserFile/"+owner->user_name+"+"+owner->user_email+"/Data";
+    this->userFileLog =fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/filelog.txt").c_str(),"a+");
+    this->userFilLayers=fopen(("../UserFile/"+owner->user_name+"+"+owner->user_email+"/fileLayer.txt").c_str(),"a+");
+    buildTree();
+    cout<<"BuildTreeSucceed";
+    rootDir.dirName="ROOT";
+    rootDir.parentNode=NULL;
+    currDir=&rootDir;
+}
+
+FileManager::~FileManager()
+{
+    fclose(userFileLog);
+    fclose(userFilLayers);
+    delete(currDir);
+}
 
 char * FileManager::ReadFile(const char* path,int &outFileLength)
 {

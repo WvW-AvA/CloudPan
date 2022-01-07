@@ -48,33 +48,6 @@ string creat_CurrentDir_html(DirNode *current)
     return creat_html_model("DirView","<p1>"+current->toStr()+"<p1>");
 }
 
-struct SignInData
-{
-    string userName;
-    string password;
-    string email;
-    SignInData(const httplib::Request& req)
-    {
-        userName = req.get_header_value("UserName");
-        password=req.get_header_value("Passward");
-        email=req.get_header_value("Email");
-        cout<<"SignInData OK\n";
-    }
-};
-
-struct EventData
-{
-    string event;
-    string dirName;
-    string fileName;
-    EventData(const httplib::Request& req)
-    {
-        event = req.get_header_value("Event");
-        dirName=req.get_header_value("dirName");
-        fileName=req.get_header_value("fileName");
-        cout<<"EventData OK\n";
-    }
-};
 
 
 void CloudPan::getLoginView(const httplib::Request &req, httplib::Response &rsp)
@@ -93,14 +66,14 @@ void CloudPan::testView(const httplib::Request& req,httplib::Response& rsp)
 void CloudPan::loginView(const httplib::Request& req,httplib::Response& rsp)
 {
     SignInData tem(req);
-    User *user;
-    if(userManager.checkPassward(tem.userName,tem.password,&user))
+    if(userManager.checkPassward(tem))
     {
-        cout<<user<<"Succed SingIn\n";
-        user->fileManager=new FileManager(user);
-        userManager.users[user->user_name]=User(*user);
-        acceptUserRequest(userManager.users[user->user_name]);
-        rsp.set_content(creat_Dir_html(user->fileManager->currDir),"text/html");
+        cout<<"check succeed\n";
+        //userManager.users.insert(std::pair<string,User>(tem.userName,User(tem.userName,tem.email,tem.password)));
+        userManager.users[tem.userName]= User(tem.userName,tem.email,tem.password);
+        cout<<&userManager.users[tem.userName]<<"Succed SingIn\n";
+        acceptUserRequest(userManager.users[tem.userName]);
+        rsp.set_content(creat_Dir_html(userManager.users[tem.userName].fileManager->currDir),"text/html");
     }else
     {
         rsp.set_content(creat_Login_html(false),"text/html");
@@ -111,8 +84,8 @@ void CloudPan::loginView(const httplib::Request& req,httplib::Response& rsp)
 void CloudPan::signUpView(const httplib::Request& req,httplib::Response& rsp)
 {
     SignInData tem(req);
-    User user(tem.userName,tem.email,tem.password);
-    if(userManager.userSignUp(user))
+    //User user(tem.userName,tem.email,tem.password);
+    if(userManager.userSignUp(tem))
     {
        rsp.set_content(creat_SignUp_html(true),"text/html");
     }else

@@ -1,6 +1,5 @@
 #include "UserInfo.hpp"
-
-
+#include "../CloudPan.hpp"
 bool UserManager::mySQLInit(MYSQL &mysql)
 {
     if(mysql_library_init(0,NULL,NULL))
@@ -24,36 +23,35 @@ bool UserManager::mySQLInit(MYSQL &mysql)
 }
 
 
-bool UserManager::checkPassward(const string name,const string passward,User ** userOut)
+bool UserManager::checkPassward(const SignInData  data)
 {
-    User* tem=readUserInfoFromSQL(name);
-    if(tem&&passward==tem->user_passward_hash)
+    SignInData tem=readUserInfoFromSQL(data.userName);
+    if(data.password==tem.password)
         {
-            *userOut=tem;
             return true;
         }
     else
         return false;
 }
 
-bool UserManager::userSignUp(const User & user)
+bool UserManager::userSignUp(const  SignInData user)
 {
     bool res= insertUserDataIntoSQL(user);
     if(res)
     {
-        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email).c_str(),S_IRWXU);
-        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/Data").c_str(),S_IRWXU);
-        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/filelog.txt").c_str(),"w");
+        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.userName+"+"+user.email).c_str(),S_IRWXU);
+        mkdir(("/home/mua/Backend/CloudPan/UserFile/"+user.userName+"+"+user.email+"/Data").c_str(),S_IRWXU);
+        auto tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.userName+"+"+user.email+"/filelog.txt").c_str(),"w");
         fclose(tem);
-        tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.user_name+"+"+user.user_email+"/fileLayer.txt").c_str(),"w");
+        tem= fopen(("/home/mua/Backend/CloudPan/UserFile/"+user.userName+"+"+user.email+"/fileLayer.txt").c_str(),"w");
         fclose(tem);
     }
     return res;
 }
 
-User* UserManager::readUserInfoFromSQL(string name)
+SignInData UserManager::readUserInfoFromSQL(string name)
 {
-    User *result= new User();
+    SignInData result;
     MYSQL_RES *res;
     MYSQL_ROW row;
     string tem("select * from UserInfo where name =\""+name+"\"");
@@ -61,31 +59,28 @@ User* UserManager::readUserInfoFromSQL(string name)
     if(mysql_query(&mysql,tem.c_str()))
     {
         cout<<"Could not Read UserInfo from databases\n";
-        delete(result);
-        return nullptr;
+        return result ;
     }
     if(!(res=mysql_use_result(&mysql)))
     {
         cout<<"User "+name+" could not find!\n";
-        delete(result);
-        return nullptr;
+        return result;
     }
     
     row=mysql_fetch_row(res);
-    result->set_id(stoi(row[0]));
-    result->user_email=row[2];
-    result->user_name=row[1];
-    result->user_passward_hash=row[3];
+    result.email=row[2];
+    result.userName=row[1];
+    result.password=row[3];
     mysql_free_result(res);
     return result;
 }
 
-bool UserManager::insertUserDataIntoSQL(const User & user)
+bool UserManager::insertUserDataIntoSQL(const SignInData  user)
 {
     string tem("insert into UserInfo (name,email,passward)value(\""+
-                        user.user_name+'\"'+
-                    ",\""+user.user_email+'\"'+
-                    ",\""+user.user_passward_hash+"\")");
+                        user.userName+'\"'+
+                    ",\""+user.email+'\"'+
+                    ",\""+user.password+"\")");
     
     if(mysql_query(&mysql,tem.c_str()))
     {

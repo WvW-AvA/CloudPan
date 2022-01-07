@@ -1,16 +1,19 @@
-#ifndef __USERINFO_HPP
-#define __USERINFO_HPP
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <map>
 #include <algorithm>
-#include "../httplib.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <mysql/mysql.h>
 
+#include "../httplib.h"
+#include "../FileManager/UserFile.hpp"
 using namespace std;
-class FileManager;
+
+struct SignInData;
+
 class  User
 {
 private:
@@ -27,7 +30,30 @@ public:
         this->user_name=user_name;
         this->user_email=user_email;
         this->user_passward_hash=user_passward_hash;
+        fileManager=new FileManager(this);
+        cout<<"User object init OK!\n";
     }
+
+    // User(const User & v)
+    // {
+    //     this->user_name=v.user_name;
+    //     this->user_email=v.user_email;
+    //     this->user_passward_hash=v.user_passward_hash;
+    //     this->fileManager=new FileManager(*v.fileManager);
+    //     cout<<"User object copy OK!\n";
+    // }
+    // User& operator=(const User& v)
+    // {
+    //     if(this!=&v)
+    //     {
+    //     this->user_name=v.user_name;
+    //     this->user_email=v.user_email;
+    //     this->user_passward_hash=v.user_passward_hash;
+    //     this->fileManager=new FileManager(*v.fileManager);
+    //     cout<<this<<"  User object assign OK!\n";
+    //     }
+    //     return *this;
+    // }
 
     User()
     {
@@ -36,6 +62,7 @@ public:
         this->user_name="";
         this->user_passward_hash="";
     }
+    
     int get_id(){return this->id;}
     void set_id(int id){this->id=id;}
     friend ostream & operator<<(ostream &os ,User * User)
@@ -44,7 +71,8 @@ public:
     }
     ~ User()
     {
-       // delete(fileManager);
+        cout<<"User object release OK!\n";
+        //delete(fileManager);
     }    
 };
 
@@ -58,10 +86,10 @@ private:
 public:
     map<string,User> users;
     //DataBase Part
-    bool checkPassward(const string name,const string passward,User **userOut);
-    bool userSignUp(const User & user);
-    bool insertUserDataIntoSQL(const User & user);
-    User* readUserInfoFromSQL(string name);
+    bool checkPassward(const SignInData  data);
+    bool userSignUp(const SignInData  user);
+    bool insertUserDataIntoSQL(const SignInData  user);
+    SignInData readUserInfoFromSQL(string name);
     UserManager()
     {
        if(!mySQLInit(mysql))
@@ -78,6 +106,3 @@ public:
 
 };
 
-
-
-#endif

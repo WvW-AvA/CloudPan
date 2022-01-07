@@ -1,1 +1,1 @@
-/usr/bin/c++   -std=c++11 -O2 -pthread -fopenmp   CMakeFiles/CloudPan.dir/CloudPan.cpp.o CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o  -o CloudPan  /usr/lib/x86_64-linux-gnu/libmysqlclient.so 
+/usr/bin/c++   -std=c++11 -g -O2 -pthread -fopenmp   CMakeFiles/CloudPan.dir/CloudPan.cpp.o CMakeFiles/CloudPan.dir/UserManager/UserInfo.cpp.o CMakeFiles/CloudPan.dir/FileManager/UserFile.cpp.o  -o CloudPan  /usr/lib/x86_64-linux-gnu/libmysqlclient.so 

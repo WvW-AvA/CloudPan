@@ -28,6 +28,12 @@ UserManager/UserInfo.hpp
 FileManager/UserFile.hpp
 /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
 
+/home/mua/Backend/CloudPan/FileManager/UserFile.cpp
+UserFile.hpp
+/home/mua/Backend/CloudPan/FileManager/UserFile.hpp
+../UserManager/UserInfo.hpp
+/home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+
 /home/mua/Backend/CloudPan/FileManager/UserFile.hpp
 iostream
 -
@@ -43,8 +49,12 @@ time.h
 -
 ../httplib.h
 /home/mua/Backend/CloudPan/httplib.h
-../UserManager/UserInfo.hpp
+
+/home/mua/Backend/CloudPan/UserManager/UserInfo.cpp
+UserInfo.hpp
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
+../CloudPan.hpp
+/home/mua/Backend/CloudPan/CloudPan.hpp
 
 /home/mua/Backend/CloudPan/UserManager/UserInfo.hpp
 iostream
@@ -55,14 +65,16 @@ map
 -
 algorithm
 -
-../httplib.h
-/home/mua/Backend/CloudPan/httplib.h
 sys/stat.h
 -
 sys/types.h
 -
 mysql/mysql.h
 -
+../httplib.h
+/home/mua/Backend/CloudPan/httplib.h
+../FileManager/UserFile.hpp
+/home/mua/Backend/CloudPan/FileManager/UserFile.hpp
 
 /home/mua/Backend/CloudPan/httplib.h
 io.h
